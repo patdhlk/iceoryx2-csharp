@@ -206,7 +206,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: markdownlint-cli2-action
-        uses: DavidAnson/markdownlint-cli2-action@v9
+        uses: DavidAnson/markdownlint-cli2-action@v20
         with:
           config: .markdownlint.yaml
           globs: |
