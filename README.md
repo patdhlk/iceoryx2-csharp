@@ -9,23 +9,23 @@ C# / .NET bindings for iceoryx2 - Zero-Copy Lock-Free IPC
 
 **✅ Production-Ready C# Bindings!**
 
-* ✅ Cross-platform library loading (macOS tested, Linux/Windows ready)
-* ✅ Complete P/Invoke FFI layer for all core APIs
-* ✅ Memory-safe resource management with SafeHandle pattern
-* ✅ High-level C# wrappers with builder pattern
-* ✅ **Publish-Subscribe API** - Full implementation with type safety and zero-copy
-* ✅ **Event API** - Complete notifier/listener implementation with
-blocking/timed waits
-* ✅ **Request-Response API** - Complete client/server RPC with verified FFI signatures
-* ✅ **Complex Data Types** - Full support for custom structs with sequential layout
-* ✅ **Async/Await Support** - Modern async methods for all blocking operations
-with CancellationToken
-* ✅ **CI/CD** - GitHub Actions workflow for multi-platform builds and NuGet packaging
-* ✅ Tests passing on macOS
-* ✅ Working examples for all major APIs (Pub/Sub, Event, RPC)
-* ✅ Production-ready with proper memory management and error handling
-* ⚠️ Requires native library: `libiceoryx2_ffi_c.{so|dylib|dll}`
-(included in git submodule)
+- ✅ Cross-platform library loading (macOS tested, Linux/Windows ready)
+- ✅ Complete P/Invoke FFI layer for all core APIs
+- ✅ Memory-safe resource management with SafeHandle pattern
+- ✅ High-level C# wrappers with builder pattern
+- ✅ **Publish-Subscribe API** - Full implementation with type safety and zero-copy
+- ✅ **Event API** - Complete notifier/listener implementation with
+  blocking/timed waits
+- ✅ **Request-Response API** - Complete client/server RPC with verified FFI signatures
+- ✅ **Complex Data Types** - Full support for custom structs with sequential layout
+- ✅ **Async/Await Support** - Modern async methods for all blocking operations
+  with CancellationToken
+- ✅ **CI/CD** - GitHub Actions workflow for multi-platform builds and NuGet packaging
+- ✅ Tests passing on macOS
+- ✅ Working examples for all major APIs (Pub/Sub, Event, RPC)
+- ✅ Production-ready with proper memory management and error handling
+- ⚠️ Requires native library: `libiceoryx2_ffi_c.{so|dylib|dll}`
+  (included in git submodule)
 
 ## Overview
 
@@ -36,13 +36,13 @@ and provide idiomatic C# APIs with full memory safety.
 
 ### Key Features
 
-* 🚀 **Zero-copy IPC** - Share memory between processes without serialization
-* 🔒 **Type-safe** - Full C# type system support with compile-time checks  
-* 🧹 **Memory-safe** - Automatic resource management via SafeHandle and IDisposable
-* 🎯 **Idiomatic C#** - Builder pattern, Result types, LINQ-friendly APIs
-* 🔧 **Cross-platform** - Works on Linux, macOS, and Windows
-* 📦 **Multiple patterns** - Publish-Subscribe, Event, and Request-Response communication
-* ⚡ **Async/Await** - Full async support with CancellationToken for modern C# applications
+- 🚀 **Zero-copy IPC** - Share memory between processes without serialization
+- 🔒 **Type-safe** - Full C# type system support with compile-time checks
+- 🧹 **Memory-safe** - Automatic resource management via SafeHandle and IDisposable
+- 🎯 **Idiomatic C#** - Builder pattern, Result types, LINQ-friendly APIs
+- 🔧 **Cross-platform** - Works on Linux, macOS, and Windows
+- 📦 **Multiple patterns** - Publish-Subscribe, Event, and Request-Response communication
+- ⚡ **Async/Await** - Full async support with CancellationToken for modern C# applications
 
 ## Quick Start
 
@@ -64,8 +64,7 @@ The NuGet package includes pre-built native libraries for macOS, Linux, and Wind
 
 ### Option 2: Build from Source
 
-> [!IMPORTANT]
-> **iceoryx2** is included as a **git submodule** and must be initialized and
+> [!IMPORTANT] > **iceoryx2** is included as a **git submodule** and must be initialized and
 > built **before** building the .NET project.
 
 #### 1. Clone with Submodules
@@ -93,9 +92,9 @@ cd ..
 
 This creates the native library at:
 
-* Linux: `iceoryx2/target/release/libiceoryx2_ffi_c.so`
-* macOS: `iceoryx2/target/release/libiceoryx2_ffi_c.dylib`
-* Windows: `iceoryx2/target/release/iceoryx2_ffi_c.dll`
+- Linux: `iceoryx2/target/release/libiceoryx2_ffi_c.so`
+- macOS: `iceoryx2/target/release/libiceoryx2_ffi_c.dylib`
+- Windows: `iceoryx2/target/release/iceoryx2_ffi_c.dll`
 
 #### 3. Build the C# Bindings
 
@@ -120,7 +119,7 @@ dotnet test
 cd examples/PublishSubscribe
 dotnet run -- publisher
 
-# Terminal 2 - Subscriber  
+# Terminal 2 - Subscriber
 cd examples/PublishSubscribe
 dotnet run -- subscriber
 ```
@@ -129,12 +128,12 @@ You should see the subscriber receiving incrementing counter values from the pub
 
 ## Prerequisites
 
-* **.NET 8.0 or .NET 9.0 SDK** ([Download](https://dotnet.microsoft.com/download))
-* **Rust toolchain** (for building the iceoryx2 C FFI library) - Install via [rustup](https://rustup.rs/)
-* **C compiler and libclang** (required for building iceoryx2):
-    * **Linux**: `sudo apt-get install clang libclang-dev`
-    * **macOS**: `brew install llvm` (usually pre-installed with Xcode)
-    * **Windows**: MSVC Build Tools (usually included with Visual Studio)
+- **.NET 8.0 or .NET 9.0 SDK** ([Download](https://dotnet.microsoft.com/download))
+- **Rust toolchain** (for building the iceoryx2 C FFI library) - Install via [rustup](https://rustup.rs/)
+- **C compiler and libclang** (required for building iceoryx2):
+  - **Linux**: `sudo apt-get install clang libclang-dev`
+  - **macOS**: `brew install llvm` (usually pre-installed with Xcode)
+  - **Windows**: MSVC Build Tools (usually included with Visual Studio)
 
 > [!NOTE]
 > The iceoryx2 project is included as a **git submodule**. You must initialize
@@ -163,9 +162,9 @@ cd ..
 
 This creates the native library in `iceoryx2/target/release/`:
 
-* Linux: `libiceoryx2_ffi_c.so`
-* macOS: `libiceoryx2_ffi_c.dylib`
-* Windows: `iceoryx2_ffi_c.dll`
+- Linux: `libiceoryx2_ffi_c.so`
+- macOS: `libiceoryx2_ffi_c.dylib`
+- Windows: `iceoryx2_ffi_c.dll`
 
 ### 3. Build the .NET Project
 
@@ -176,8 +175,8 @@ dotnet build --configuration Release
 
 The build process automatically:
 
-* Copies the native library to all output directories
-* Builds all projects (iceoryx2, iceoryx2.Reactive, tests, examples)
+- Copies the native library to all output directories
+- Builds all projects (iceoryx2, iceoryx2.Reactive, tests, examples)
 
 ### 4. Run Tests
 
@@ -234,11 +233,11 @@ This script:
 The C# bindings automatically detect and load the correct native library for
 your platform:
 
-| Platform | Library Names (tried in order) |
-|----------|--------------------------------|
-| **Linux**   | `libiceoryx2_ffi_c.so`, `iceoryx2_ffi_c.so` |
+| Platform    | Library Names (tried in order)                    |
+| ----------- | ------------------------------------------------- |
+| **Linux**   | `libiceoryx2_ffi_c.so`, `iceoryx2_ffi_c.so`       |
 | **macOS**   | `libiceoryx2_ffi_c.dylib`, `iceoryx2_ffi_c.dylib` |
-| **Windows** | `iceoryx2_ffi_c.dll`, `libiceoryx2_ffi_c.dll` |
+| **Windows** | `iceoryx2_ffi_c.dll`, `libiceoryx2_ffi_c.dll`     |
 
 ## Project Structure
 
@@ -347,6 +346,73 @@ if (receivedSample != null)
     Console.WriteLine($"Received: {receivedSample.Payload}");
 }
 ```
+
+### Zero-Copy Access
+
+The bindings provide true zero-copy access to shared memory through `ref` returns, eliminating intermediate copies when reading or writing payload data.
+
+#### Zero-Copy Write (Publisher)
+
+```csharp
+using var publisher = service.CreatePublisher().Unwrap();
+using var sample = publisher.Loan<MyData>().Unwrap();
+
+// Direct zero-copy access to shared memory
+ref var payload = ref sample.GetPayloadRef();
+payload.Field1 = 42;
+payload.Field2 = 3.14;
+
+sample.Send();
+```
+
+#### Zero-Copy Read (Subscriber)
+
+```csharp
+using var subscriber = service.CreateSubscriber().Unwrap();
+var result = subscriber.Receive<MyData>();
+
+if (result.IsOk)
+{
+    using var sample = result.Unwrap();
+    if (sample != null)
+    {
+        // Direct zero-copy read from shared memory
+        ref readonly var payload = ref sample.GetPayloadRefReadOnly();
+        Console.WriteLine($"Field1: {payload.Field1}, Field2: {payload.Field2}");
+    }
+}
+```
+
+#### API Methods
+
+**`Sample<T>` provides three ways to access payload data:**
+
+1. **`Payload` property** - Copies data (backward compatible)
+
+   ```csharp
+   sample.Payload = new MyData { Field1 = 42 };  // Copy on write
+   var data = sample.Payload;  // Copy on read
+   ```
+
+2. **`GetPayloadRef()`** - Zero-copy mutable access (loaned samples only)
+
+   ```csharp
+   ref var payload = ref sample.GetPayloadRef();
+   payload.Field1 = 42;  // Direct modification in shared memory
+   ```
+
+3. **`GetPayloadRefReadOnly()`** - Zero-copy read-only access (any sample)
+   ```csharp
+   ref readonly var payload = ref sample.GetPayloadRefReadOnly();
+   Console.WriteLine(payload.Field1);  // Direct read from shared memory
+   ```
+
+**Performance Benefits:**
+
+- ✅ No marshaling overhead
+- ✅ No intermediate allocations
+- ✅ Direct memory access
+- ✅ Ideal for large structs or high-frequency updates
 
 ### Event Pattern
 
@@ -546,7 +612,7 @@ if (loanResult.IsOk)
 {
     using var request = loanResult.Unwrap();
     request.Payload = new AddRequest { Value = 42 };
-    
+
     var sendResult = request.Send();
     if (sendResult.IsOk)
     {
@@ -580,14 +646,14 @@ while (true)
         using (request)
         {
             int value = request.Payload.Value;
-            
+
             // Option 1: SendCopyResponse() - Convenience method
             var sendResult = request.SendCopyResponse(new AddResponse { Sum = value + 100 });
             if (!sendResult.IsOk)
             {
                 Console.WriteLine($"Failed to send response: {sendResult}");
             }
-            
+
             // Option 2: LoanResponse() - Zero-copy method
             // var loanResult = request.LoanResponse();
             // if (loanResult.IsOk)
@@ -598,20 +664,20 @@ while (true)
             // }
         }
     }
-    
+
     Thread.Sleep(100); // Small delay between checks
 }
 ```
 
 **Key Features:**
 
-* ✅ Fully verified FFI signatures matching the C API exactly
-* ✅ Both convenience methods (`SendCopy`, `SendCopyResponse`) and zero-copy
-methods (`Loan`, `LoanResponse`)
-* ✅ Three response waiting modes: non-blocking (`TryReceive`), timed (`TimedReceive`),
-and blocking (`BlockingReceive`)
-* ✅ Proper memory management with automatic cleanup
-* ✅ Type-safe request/response handling with generic types
+- ✅ Fully verified FFI signatures matching the C API exactly
+- ✅ Both convenience methods (`SendCopy`, `SendCopyResponse`) and zero-copy
+  methods (`Loan`, `LoanResponse`)
+- ✅ Three response waiting modes: non-blocking (`TryReceive`), timed (`TimedReceive`),
+  and blocking (`BlockingReceive`)
+- ✅ Proper memory management with automatic cleanup
+- ✅ Type-safe request/response handling with generic types
 
 ### Complex Data Types
 
@@ -639,11 +705,11 @@ var service = node.ServiceBuilder()
 using var publisher = service.CreatePublisher().Unwrap();
 using var sample = publisher.Loan().Unwrap();
 
-sample.Payload = new TransmissionData 
-{ 
-    X = 10, 
-    Y = 20, 
-    Value = 3.14 
+sample.Payload = new TransmissionData
+{
+    X = 10,
+    Y = 20,
+    Value = 3.14
 };
 
 sample.Send();
@@ -656,11 +722,11 @@ enabling modern asynchronous programming patterns with proper cancellation suppo
 
 ### Benefits
 
-* **Non-blocking** - Operations yield to the thread pool instead of blocking threads
-* **Composable** - Use `Task.WhenAll()`, `Task.WhenAny()` for concurrent operations
-* **Cancellable** - All async methods accept `CancellationToken` for
-cooperative cancellation
-* **Efficient** - Better thread pool utilization compared to polling with `Thread.Sleep()`
+- **Non-blocking** - Operations yield to the thread pool instead of blocking threads
+- **Composable** - Use `Task.WhenAll()`, `Task.WhenAny()` for concurrent operations
+- **Cancellable** - All async methods accept `CancellationToken` for
+  cooperative cancellation
+- **Efficient** - Better thread pool utilization compared to polling with `Thread.Sleep()`
 
 ### Async Methods
 
@@ -722,23 +788,23 @@ public async Task RunClientAsync(CancellationToken cancellationToken = default)
         .Name("async_client")
         .Create()
         .Unwrap();
-    
+
     using var service = node.ServiceBuilder()
         .RequestResponse<ulong, MyResponse>()
         .Open("MyService")
         .Unwrap();
-    
+
     using var client = service.CreateClient().Unwrap();
-    
+
     // Send request
     var sendResult = client.SendCopy(42ul);
     using var pendingResponse = sendResult.Unwrap();
-    
+
     // Wait for response asynchronously with timeout
     var responseResult = await pendingResponse.ReceiveAsync(
-        TimeSpan.FromSeconds(2), 
+        TimeSpan.FromSeconds(2),
         cancellationToken);
-    
+
     if (responseResult.IsOk)
     {
         var response = responseResult.Unwrap();
@@ -771,21 +837,21 @@ public async Task RunListenerAsync(CancellationToken cancellationToken = default
         .Name("async_listener")
         .Create()
         .Unwrap();
-    
+
     using var service = node.ServiceBuilder()
         .Event()
         .Open("MyEvents")
         .Unwrap();
-    
+
     using var listener = service.CreateListener().Unwrap();
-    
+
     // Wait for events asynchronously
     while (!cancellationToken.IsCancellationRequested)
     {
         var result = await listener.WaitAsync(
-            TimeSpan.FromSeconds(5), 
+            TimeSpan.FromSeconds(5),
             cancellationToken);
-        
+
         if (result.IsOk)
         {
             var eventId = result.Unwrap();
@@ -867,11 +933,11 @@ var firstResponse = await Task.WhenAny(tasks);
 
 The C# bindings follow .NET naming conventions:
 
-* **Classes** use PascalCase (e.g., `Node`, `ServiceBuilder`, `EventService`)
-* **Methods** use PascalCase (e.g., `Create()`, `OpenOrCreate()`, `Notify()`)
-* **Properties** use PascalCase (e.g., `Name`, `Id`, `Payload`)
-* **Internal/Native types** use the original C naming with `iox2_` prefix
-* **Result pattern** uses `IsOk` property and `Unwrap()` method for error handling
+- **Classes** use PascalCase (e.g., `Node`, `ServiceBuilder`, `EventService`)
+- **Methods** use PascalCase (e.g., `Create()`, `OpenOrCreate()`, `Notify()`)
+- **Properties** use PascalCase (e.g., `Name`, `Id`, `Payload`)
+- **Internal/Native types** use the original C naming with `iox2_` prefix
+- **Result pattern** uses `IsOk` property and `Unwrap()` method for error handling
 
 ## API Patterns
 
@@ -916,13 +982,13 @@ var publisher = service.CreatePublisher()
 
 The C# bindings implement proper memory management with multiple layers of safety:
 
-* **All native resources implement `IDisposable`** - ensures cleanup even if
-exceptions occur
-* **Use `using` statements** to ensure proper cleanup of resources
-* **`SafeHandle` types** protect against resource leaks and race conditions
-* **Automatic finalization** for cleanup if `Dispose()` is not called
-(though explicit disposal is recommended)
-* **No manual memory management required** - the bindings handle all FFI marshalling
+- **All native resources implement `IDisposable`** - ensures cleanup even if
+  exceptions occur
+- **Use `using` statements** to ensure proper cleanup of resources
+- **`SafeHandle` types** protect against resource leaks and race conditions
+- **Automatic finalization** for cleanup if `Dispose()` is not called
+  (though explicit disposal is recommended)
+- **No manual memory management required** - the bindings handle all FFI marshalling
 
 ### Best Practices
 
@@ -934,7 +1000,7 @@ using var notifier = service.CreateNotifier().Unwrap();
 
 // ✅ GOOD: Explicit disposal in try-finally
 var node = NodeBuilder.New().Create().Unwrap();
-try 
+try
 {
     // Use node...
 }
@@ -952,23 +1018,23 @@ var node = NodeBuilder.New().Create().Unwrap();
 
 ### Supported Communication Patterns
 
-* ✅ **Publish-Subscribe** - One-to-many data distribution with zero-copy
-* ✅ **Event** - Lightweight notification system with custom event IDs
-* ✅ **Request-Response** - Client-server RPC with async response handling
-* 🚧 **Pipeline** - Coming soon
+- ✅ **Publish-Subscribe** - One-to-many data distribution with zero-copy
+- ✅ **Event** - Lightweight notification system with custom event IDs
+- ✅ **Request-Response** - Client-server RPC with async response handling
+- 🚧 **Pipeline** - Coming soon
 
 ### Supported Platforms
 
-* ✅ **macOS** (tested on Apple Silicon and Intel)
-* ✅ **Linux** (x86_64, ARM64)
-* ✅ **Windows** (x86_64)
+- ✅ **macOS** (tested on Apple Silicon and Intel)
+- ✅ **Linux** (x86_64, ARM64)
+- ✅ **Windows** (x86_64)
 
 ### Type System
 
-* ✅ **Primitive types** - int, uint, long, ulong, float, double, bool
-* ✅ **Complex types** - Structs with `[StructLayout(LayoutKind.Sequential)]`
-* ✅ **Custom type names** - Use `[Iox2Type("name")]` attribute
-* ⚠️ **Zero-copy** - Requires sequential layout and unmanaged types
+- ✅ **Primitive types** - int, uint, long, ulong, float, double, bool
+- ✅ **Complex types** - Structs with `[StructLayout(LayoutKind.Sequential)]`
+- ✅ **Custom type names** - Use `[Iox2Type("name")]` attribute
+- ⚠️ **Zero-copy** - Requires sequential layout and unmanaged types
 
 ## Troubleshooting
 
@@ -978,10 +1044,10 @@ If you get a `DllNotFoundException`, ensure:
 
 1. The native library is built: `cargo build --release --package iceoryx2-ffi-c`
 2. The library is in one of these locations:
-   * Same directory as your executable
-   * System library path (`/usr/lib`, `/usr/local/lib`, etc.)
-   * Path specified in `LD_LIBRARY_PATH` (Linux), `DYLD_LIBRARY_PATH` (macOS),
-   or `PATH` (Windows)
+   - Same directory as your executable
+   - System library path (`/usr/lib`, `/usr/local/lib`, etc.)
+   - Path specified in `LD_LIBRARY_PATH` (Linux), `DYLD_LIBRARY_PATH` (macOS),
+     or `PATH` (Windows)
 
 ### Type Name Mismatches
 
@@ -999,9 +1065,9 @@ Rust naming (`i32`, `u64`, etc.).
 
 ### Memory Errors or Crashes
 
-* Ensure all resources use `using` statements or are properly disposed
-* Don't access samples after calling `Send()` or `Dispose()`
-* Use `Result<T, E>` pattern - always check `IsOk` before calling `Unwrap()`
+- Ensure all resources use `using` statements or are properly disposed
+- Don't access samples after calling `Send()` or `Dispose()`
+- Use `Result<T, E>` pattern - always check `IsOk` before calling `Unwrap()`
 
 ## Examples
 
@@ -1013,9 +1079,9 @@ The repository includes several complete examples:
 
 Demonstrates basic pub/sub pattern with primitive types:
 
-* Publisher sends incrementing counter values
-* Subscriber receives and displays values
-* Shows proper resource management with `using` statements
+- Publisher sends incrementing counter values
+- Subscriber receives and displays values
+- Shows proper resource management with `using` statements
 
 ### 2. Event
 
@@ -1023,19 +1089,19 @@ Demonstrates basic pub/sub pattern with primitive types:
 
 Demonstrates event-based communication:
 
-* Notifier sends events with custom event IDs (0-11)
-* Listener receives events with timeout support
-* Shows three wait modes: non-blocking, timed, and blocking
+- Notifier sends events with custom event IDs (0-11)
+- Listener receives events with timeout support
+- Shows three wait modes: non-blocking, timed, and blocking
 
-### 3. ComplexDataTypes  
+### 3. ComplexDataTypes
 
 **Location:** `examples/ComplexDataTypes/`
 
 Demonstrates zero-copy sharing of complex structs:
 
-* Defines custom `TransmissionData` struct
-* Shows struct layout and type naming
-* Demonstrates cross-process struct sharing
+- Defines custom `TransmissionData` struct
+- Shows struct layout and type naming
+- Demonstrates cross-process struct sharing
 
 ### 4. RequestResponse
 
@@ -1043,12 +1109,12 @@ Demonstrates zero-copy sharing of complex structs:
 
 Demonstrates client-server RPC pattern with fully verified C API compatibility:
 
-* Client sends `AddRequest` messages with integer values
-* Server maintains a running sum and responds with `AddResponse`
-* Shows async response handling with three wait modes (non-blocking, timed, blocking)
-* Demonstrates both `SendCopy()` convenience method and `Loan()`/`LoanResponse()`
-for zero-copy
-* FFI signatures verified to exactly match the C API for reliable operation
+- Client sends `AddRequest` messages with integer values
+- Server maintains a running sum and responds with `AddResponse`
+- Shows async response handling with three wait modes (non-blocking, timed, blocking)
+- Demonstrates both `SendCopy()` convenience method and `Loan()`/`LoanResponse()`
+  for zero-copy
+- FFI signatures verified to exactly match the C API for reliable operation
 
 ### 5. AsyncPubSub
 
@@ -1056,12 +1122,12 @@ for zero-copy
 
 Demonstrates modern async/await patterns for publish-subscribe:
 
-* Async publisher using `await Task.Delay()` instead of blocking
-* Async subscriber with timeout using `ReceiveAsync()`
-* Async subscriber blocking until data arrives
-* Multiple concurrent subscribers processing data in parallel
-* Proper cancellation support with `CancellationToken`
-* Shows best practices for async IPC in modern C# applications
+- Async publisher using `await Task.Delay()` instead of blocking
+- Async subscriber with timeout using `ReceiveAsync()`
+- Async subscriber blocking until data arrives
+- Multiple concurrent subscribers processing data in parallel
+- Proper cancellation support with `CancellationToken`
+- Shows best practices for async IPC in modern C# applications
 
 **Run with:**
 
@@ -1082,11 +1148,11 @@ dotnet run multi
 
 Contributions are welcome! Here are some areas where you can help:
 
-* 🧪 **Testing** - Add more unit tests and integration tests
-* 📚 **Documentation** - Improve XML docs and add tutorials
-* 🎯 **Examples** - Create examples for specific use cases
-* 🐛 **Bug fixes** - Report and fix issues
-* ✨ **New features** - Implement missing APIs (request-response, pipeline, etc.)
+- 🧪 **Testing** - Add more unit tests and integration tests
+- 📚 **Documentation** - Improve XML docs and add tutorials
+- 🎯 **Examples** - Create examples for specific use cases
+- 🐛 **Bug fixes** - Report and fix issues
+- ✨ **New features** - Implement missing APIs (request-response, pipeline, etc.)
 
 ### Development Workflow
 
@@ -1099,36 +1165,36 @@ Contributions are welcome! Here are some areas where you can help:
 
 ### Code Style
 
-* Follow standard C# conventions (PascalCase for public APIs)
-* Add XML documentation comments to all public APIs
-* Use `Result<T, E>` for fallible operations
-* Implement `IDisposable` for resources that wrap native handles
-* Use `SafeHandle` for all P/Invoke handles
+- Follow standard C# conventions (PascalCase for public APIs)
+- Add XML documentation comments to all public APIs
+- Use `Result<T, E>` for fallible operations
+- Implement `IDisposable` for resources that wrap native handles
+- Use `SafeHandle` for all P/Invoke handles
 
 ## Roadmap
 
-* [x] Core infrastructure (Node, Service, Builder patterns)
-* [x] Publish-Subscribe API with zero-copy support
-* [x] Event API with blocking/timed/non-blocking waits
-* [x] Request-Response API (RPC) with verified FFI compatibility
-* [x] Complex data type support with sequential layout
-* [x] Cross-platform library loading (macOS, Linux, Windows)
-* [x] Comprehensive examples for all major APIs
-* [x] Memory-safe resource management with SafeHandle pattern
-* [x] Full async/await support with CancellationToken
-* [ ] Pipeline API
-* [ ] Service discovery and monitoring
-* [ ] Performance benchmarks vs other IPC solutions
-* [ ] NuGet package publication
-* [ ] XML documentation improvements
-* [ ] Additional integration tests
+- [x] Core infrastructure (Node, Service, Builder patterns)
+- [x] Publish-Subscribe API with zero-copy support
+- [x] Event API with blocking/timed/non-blocking waits
+- [x] Request-Response API (RPC) with verified FFI compatibility
+- [x] Complex data type support with sequential layout
+- [x] Cross-platform library loading (macOS, Linux, Windows)
+- [x] Comprehensive examples for all major APIs
+- [x] Memory-safe resource management with SafeHandle pattern
+- [x] Full async/await support with CancellationToken
+- [ ] Pipeline API
+- [ ] Service discovery and monitoring
+- [ ] Performance benchmarks vs other IPC solutions
+- [ ] NuGet package publication
+- [ ] XML documentation improvements
+- [ ] Additional integration tests
 
 ## License
 
 Licensed under either of
 
-* Apache License, Version 2.0 ([LICENSE-APACHE](./LICENSE-APACHE) or <https://www.apache.org/licenses/LICENSE-2.0>)
-* MIT license ([LICENSE-MIT](./LICENSE-MIT) or <https://opensource.org/licenses/MIT>)
+- Apache License, Version 2.0 ([LICENSE-APACHE](./LICENSE-APACHE) or <https://www.apache.org/licenses/LICENSE-2.0>)
+- MIT license ([LICENSE-MIT](./LICENSE-MIT) or <https://opensource.org/licenses/MIT>)
 
 at your option.
 
