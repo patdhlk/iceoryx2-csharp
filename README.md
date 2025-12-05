@@ -56,7 +56,7 @@ Or add to your `.csproj`:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Iceoryx2" Version="0.7.0" />
+  <PackageReference Include="Iceoryx2" Version="0.1.0" />
 </ItemGroup>
 ```
 

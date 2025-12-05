@@ -10,7 +10,7 @@
     
     <!-- Package Information -->
     <PackageId>Iceoryx2</PackageId>
-    <Version>0.7.0</Version>
+    <Version>0.1.0</Version>
     <Authors>Contributors to the Eclipse Foundation</Authors>
     <Company>Eclipse iceoryx</Company>
     <Description>Zero-Copy Lock-Free Inter-process Communication for .NET</Description>
