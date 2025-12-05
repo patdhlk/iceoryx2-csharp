@@ -1,22 +1,28 @@
 # Observable WaitSet Example
 
-This example demonstrates how to use **Rx.NET (Reactive Extensions)** with the WaitSet API to create powerful reactive event streams. The example shows how to transform low-level WaitSet events into composable, functional reactive streams.
+This example demonstrates how to use **Rx.NET (Reactive Extensions)** with the
+WaitSet API to create powerful reactive event streams. The example shows how to
+transform low-level WaitSet events into composable, functional reactive streams.
 
-> **Note**: This example requires the iceoryx2 C library to be built and available. See the main iceoryx2 documentation for build instructions.
+> **Note**: This example requires the iceoryx2 C library to be built and
+> available. See the main iceoryx2 documentation for build instructions.
 
 ## Overview
 
 The example provides:
 
-1. **WaitSet to Observable Adapter**: Extension method that converts WaitSet events into an `IObservable<EventNotification>` stream
-2. **Multiple Reactive Patterns**: Demonstrates filtering, grouping, throttling, combining, and async processing
+1. **WaitSet to Observable Adapter**: Extension method that converts WaitSet
+   events into an `IObservable<EventNotification>` stream
+2. **Multiple Reactive Patterns**: Demonstrates filtering, grouping, throttling,
+   combining, and async processing
 3. **Async Notifier**: Sends events to services for testing
 
 ## Key Concepts
 
 ### Reactive Extensions (Rx.NET)
 
-Rx.NET provides a powerful functional reactive programming model for composing asynchronous and event-based programs using observable sequences.
+Rx.NET provides a powerful functional reactive programming model for composing
+asynchronous and event-based programs using observable sequences.
 
 **Benefits:**
 
@@ -58,7 +64,7 @@ dotnet run --framework net8.0 -- observe service_a service_b
 
 Output:
 
-```
+```text
 Creating Observable for services: 'service_a', 'service_b'
 
 === Simple Event Stream ===
@@ -102,7 +108,7 @@ eventStream.Subscribe(
 
 **Output:**
 
-```
+```text
 [10:23:45.123] Service 'service_a' → Event ID: 123
 [10:23:46.456] Service 'service_b' → Event ID: 456
 ```
@@ -119,7 +125,7 @@ eventStream
 
 **Output:**
 
-```
+```text
 Filtered: service_a → 123
 ```
 
@@ -140,7 +146,7 @@ eventStream
 
 **Output:**
 
-```
+```text
 Stats: 'service_a' received 5 events in last 5s
 Stats: 'service_b' received 3 events in last 5s
 ```
@@ -158,7 +164,7 @@ eventStream
 
 **Output:**
 
-```
+```text
 Throttled: service_a → 123
 [... 1 second passes ...]
 Throttled: service_a → 123
@@ -180,7 +186,7 @@ service1Stream
 
 **Output:**
 
-```
+```text
 Pair: [service_a:123] + [service_b:456]
 ```
 
@@ -241,7 +247,7 @@ eventStream
 
 ## Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │         Observer Process                    │
 │  ┌───────────────────────────────────────┐  │

@@ -1,6 +1,7 @@
 # Async Publish-Subscribe Example
 
-This example demonstrates the async/await functionality in the iceoryx2 C# bindings for publish-subscribe communication.
+This example demonstrates the async/await functionality in the iceoryx2 C#
+bindings for publish-subscribe communication.
 
 ## Features Demonstrated
 
@@ -11,7 +12,10 @@ This example demonstrates the async/await functionality in the iceoryx2 C# bindi
 * ✅ Proper cancellation support with `CancellationToken`
 * ✅ Graceful shutdown with Ctrl+C handling
 
-**Note:** Subscribers use polling (every 10ms) since the native API doesn't provide blocking receive. However, the async implementation yields to the thread pool efficiently, making it suitable for async scenarios without blocking threads.
+**Note:** Subscribers use polling (every 10ms) since the native API doesn't
+provide blocking receive. However, the async implementation yields to the thread
+pool efficiently, making it suitable for async scenarios without blocking
+threads.
 
 ## Building
 
@@ -31,7 +35,7 @@ dotnet run publisher
 
 Output:
 
-```
+```text
 iceoryx2 C# Async Publish-Subscribe Example
 ============================================
 
@@ -59,7 +63,7 @@ dotnet run subscriber
 
 Output:
 
-```
+```text
 Starting Async Subscriber (with 5s timeout)...
 
 Node created: csharp_async_subscriber
@@ -85,7 +89,7 @@ dotnet run blocking
 
 Output:
 
-```
+```text
 Starting Async Subscriber (polling until data)...
 
 Node created: csharp_async_blocking_subscriber
@@ -111,7 +115,7 @@ dotnet run multi
 
 Output:
 
-```
+```text
 Starting 3 Concurrent Async Subscribers...
 
 Created 3 subscribers
@@ -227,10 +231,14 @@ All async methods check the cancellation token:
 
 ### Thread Safety
 
-All iceoryx2 objects are designed to be used from a single thread. If you need to use them from multiple threads, you must provide your own synchronization.
+All iceoryx2 objects are designed to be used from a single thread. If you need
+to use them from multiple threads, you must provide your own synchronization.
 
 ## See Also
 
-* [ProgramAsync.cs](../PublishSubscribe/ProgramAsync.cs) - Async helper methods (not standalone)
-* [../RequestResponse/ProgramAsync.cs](../RequestResponse/ProgramAsync.cs) - Async request-response example
-* [../../ASYNC_SUPPORT.md](../../ASYNC_SUPPORT.md) - Detailed async/await documentation
+* [`ProgramAsync.cs`](../PublishSubscribe/ProgramAsync.cs) - Async helper
+  methods (not standalone)
+* [`ProgramAsync.cs`](../RequestResponse/ProgramAsync.cs) - Async request-
+  response example
+* [`ASYNC_SUPPORT.md`](../../ASYNC_SUPPORT.md) - Detailed
+  async/await documentation

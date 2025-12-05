@@ -1,10 +1,15 @@
 # Reactive Extensions Example
 
-This example demonstrates how to use the **iceoryx2.Reactive** library to convert iceoryx2 subscribers into reactive, declarative data streams using `IObservable<T>` and `IAsyncEnumerable<T>`.
+This example demonstrates how to use the **iceoryx2.Reactive** library to convert
+iceoryx2 subscribers into reactive, declarative data streams using `IObservable<T>`
+and `IAsyncEnumerable<T>`.
 
 ## Overview
 
-The Reactive Extensions (Rx.NET) pattern allows you to transform imperative polling-based code into declarative, composable data pipelines. Instead of manually polling for data, you can use LINQ-style operators to filter, transform, buffer, and throttle your data streams.
+The Reactive Extensions (Rx.NET) pattern allows you to transform imperative
+polling-based code into declarative, composable data pipelines. Instead of
+manually polling for data, you can use LINQ-style operators to filter, transform,
+buffer, and throttle your data streams.
 
 ## What This Example Shows
 
@@ -22,7 +27,8 @@ This example demonstrates 7 different reactive patterns:
 
 ### Prerequisites
 
-1. **iceoryx2 Native Library**: The example requires the iceoryx2 native library (C/C++).
+1. **iceoryx2 Native Library**: The example requires the iceoryx2 native library
+   (C/C++).
 2. **.NET 8.0 or .NET 9.0**: The example targets both frameworks.
 
 ### Build
@@ -131,7 +137,7 @@ await foreach (var data in subscriber.AsAsyncEnumerable<SensorData>())
 
 ## Key Concepts
 
-### AsObservable<T>()
+### `AsObservable<T>()`
 
 Converts a subscriber into an `IObservable<T>` that can be composed with Rx operators:
 
@@ -144,7 +150,7 @@ IObservable<T> AsObservable<T>(
 * **pollingInterval**: How often to poll for data (default: 10ms)
 * **cancellationToken**: Token to cancel the subscription
 
-### AsAsyncEnumerable<T>()
+### `AsAsyncEnumerable<T>()`
 
 Converts a subscriber into an `IAsyncEnumerable<T>` for `await foreach` patterns:
 
@@ -156,9 +162,11 @@ IAsyncEnumerable<T> AsAsyncEnumerable<T>(
 
 ## Performance Considerations
 
-* **Polling Interval**: Lower intervals (e.g., 1ms) reduce latency but increase CPU usage. Higher intervals (e.g., 100ms) reduce CPU usage but increase latency.
+* **Polling Interval**: Lower intervals (e.g., 1ms) reduce latency but increase
+  CPU usage. Higher intervals (e.g., 100ms) reduce CPU usage but increase latency.
 * **Default**: 10ms is a reasonable default for most use cases.
-* **Resource Cleanup**: Always dispose subscriptions when done to stop polling tasks.
+* **Resource Cleanup**: Always dispose subscriptions when done to stop polling
+  tasks.
 
 ## Disposing Subscriptions
 
@@ -183,4 +191,4 @@ using var subscription = subscriber.AsObservable<SensorData>()
 
 * [iceoryx2.Reactive README](../../src/Iceoryx2.Reactive/README.md)
 * [Rx.NET Documentation](https://github.com/dotnet/reactive)
-* [IAsyncEnumerable<T> Documentation](https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/async-streams)
+* [`IAsyncEnumerable<T>` Documentation](https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/async-streams)

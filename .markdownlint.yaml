@@ -102,6 +102,8 @@ MD023: true
 # MD024/no-duplicate-heading : Multiple headings with the same content : https://github.com/DavidAnson/markdownlint/blob/v0.32.1/doc/md024.md
 MD024:
   # Only check sibling headings
+  allow_different_nesting: true
+  # Only check sibling headings
   siblings_only: true
 
 # MD025/single-title/single-h1 : Multiple top-level headings in the same document : https://github.com/DavidAnson/markdownlint/blob/v0.32.1/doc/md025.md
@@ -198,18 +200,19 @@ MD043: false
 # MD044/proper-names : Proper names should have the correct capitalization : https://github.com/DavidAnson/markdownlint/blob/v0.32.1/doc/md044.md
 MD044:
   # List of proper names
-  names: [
-    "iceoryx2",
-    "Rust",
-    "C",
-    "C++",
-    "macOS",
-    "iOS",
-    "FreeBSD",
-    "POSIX",
-    "IPC",
-    "GNU"
-  ]
+  names:
+    [
+      "iceoryx2",
+      "Rust",
+      "C",
+      "C++",
+      "macOS",
+      "iOS",
+      "FreeBSD",
+      "POSIX",
+      "IPC",
+      "GNU",
+    ]
   # Include code blocks
   code_blocks: false
   # Include HTML elements

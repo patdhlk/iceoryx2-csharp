@@ -1,8 +1,12 @@
 # WaitSet Event Multiplexing Example
 
-This example demonstrates how to use the `WaitSet` API for efficient event-driven communication without polling, using modern C# async/await patterns. The WaitSet uses OS-level primitives (epoll on Linux, kqueue on macOS) to monitor multiple event sources simultaneously.
+This example demonstrates how to use the `WaitSet` API for efficient
+event-driven communication without polling, using modern C# async/await patterns.
+The WaitSet uses OS-level primitives (epoll on Linux, kqueue on macOS) to
+monitor multiple event sources simultaneously.
 
-> **Note**: This example requires the iceoryx2 C library to be built and available. See the main iceoryx2 documentation for build instructions.
+> **Note**: This example requires the iceoryx2 C library to be built and
+> available. See the main iceoryx2 documentation for build instructions.
 
 ## Overview
 
@@ -41,7 +45,9 @@ do
 } while (true);
 ```
 
-**Why?** The WaitSet wakes when data is available. If events aren't consumed, the file descriptor remains ready and the WaitSet immediately wakes again, creating a busy loop.
+**Why?** The WaitSet wakes when data is available. If events aren't consumed,
+the file descriptor remains ready and the WaitSet immediately wakes again,
+creating a busy loop.
 
 ## Building
 
@@ -51,7 +57,8 @@ dotnet build
 
 ## Running
 
-> **Note**: Since the project targets multiple frameworks (.NET 8.0 and .NET 9.0), you must specify which framework to use with `--framework`.
+> **Note**: Since the project targets multiple frameworks (.NET 8.0 and
+> .NET 9.0), you must specify which framework to use with `--framework`.
 
 ### Terminal 1: Start the Waiter
 
@@ -69,7 +76,7 @@ dotnet run --framework net8.0 -- wait service_a service_b
 
 Output:
 
-```
+```text
 Waiting on services: 'service_a' and 'service_b'
 ```
 
@@ -81,7 +88,7 @@ dotnet run --framework net9.0 -- notify 123 service_a
 
 Output (in Terminal 1):
 
-```
+```text
 [service: 'service_a'] event received with id: 123
 [service: 'service_a'] event received with id: 123
 ...
@@ -95,7 +102,7 @@ dotnet run --framework net9.0 -- notify 456 service_b
 
 Output (in Terminal 1):
 
-```
+```text
 [service: 'service_b'] event received with id: 456
 [service: 'service_b'] event received with id: 456
 ...
@@ -110,14 +117,14 @@ The waiter uses `SignalHandlingMode.TerminationAndInterrupt` to handle:
 
 Press Ctrl+C to gracefully shut down:
 
-```
+```text
 ^C
 WaitSet completed with result: TerminationRequest
 ```
 
 ## Architecture
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │           Waiter Process                │
 │  ┌───────────────────────────────────┐  │
@@ -166,7 +173,8 @@ var guard = waitset.AttachNotification(listener)
     .Expect("Failed to attach listener");
 ```
 
-**Important**: Keep the `WaitSetGuard` alive! When disposed, the attachment is automatically removed.
+**Important**: Keep the `WaitSetGuard` alive! When disposed, the attachment is
+automatically removed.
 
 ### Event Processing Callback
 

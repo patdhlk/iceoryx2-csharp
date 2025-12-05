@@ -1,6 +1,8 @@
 # Complex Data Types Example
 
-This example demonstrates how to use complex data types (structs) with iceoryx2 in C#. It shows how to define custom structs that can be sent and received across process boundaries using zero-copy shared memory communication.
+This example demonstrates how to use complex data types (structs) with iceoryx2 in
+C#. It shows how to define custom structs that can be sent and received across
+process boundaries using zero-copy shared memory communication.
 
 ## Features
 
@@ -10,13 +12,15 @@ This example demonstrates:
 2. **Sensor Data**: More realistic struct with timestamps and sensor readings
 3. **Fixed Arrays**: `Point3D` with embedded fixed-size arrays
 4. **Cross-Language Compatibility**: Using `[Iox2Type]` attribute for type name mapping
-5. **Memory Layout Control**: Using `[StructLayout(LayoutKind.Sequential)]` for C compatibility
+5. **Memory Layout Control**: Using `[StructLayout(LayoutKind.Sequential)]`
+   for C compatibility
 
 ## Key Concepts
 
 ### Memory Layout
 
-For structs to work correctly across language boundaries, they must have a predictable memory layout:
+For structs to work correctly across language boundaries, they must have a
+predictable memory layout:
 
 ```csharp
 [StructLayout(LayoutKind.Sequential)]  // Ensures fields are laid out in order
@@ -31,7 +35,8 @@ public struct TransmissionData
 
 ### Type Name Mapping
 
-The `[Iox2Type]` attribute allows you to specify the type name used for cross-language communication:
+The `[Iox2Type]` attribute allows you to specify the type name used for cross-
+language communication:
 
 ```csharp
 [Iox2Type("TransmissionData")]  // Must match the name used in Rust/C
@@ -111,7 +116,7 @@ dotnet run -- subscriber point
 
 ### Publisher
 
-```
+```text
 [Publisher] Starting with type: TransmissionData
 [Publisher] Type size: 16 bytes
 [Publisher] Service: ComplexTypes/Transmission
@@ -124,7 +129,7 @@ Sending: TransmissionData { x: 2, y: 6, funky: 1624.24 }
 
 ### Subscriber
 
-```
+```text
 [Subscriber] Starting with type: TransmissionData
 [Subscriber] Type size: 16 bytes
 [Subscriber] Service: ComplexTypes/Transmission
@@ -139,12 +144,14 @@ Received: TransmissionData { x: 2, y: 6, funky: 1624.24 }
 
 To communicate with Rust or C applications, ensure:
 
-1. **Type names match**: Use `[Iox2Type("YourTypeName")]` or ensure C# type name matches
-2. **Memory layout matches**: Use `[StructLayout(LayoutKind.Sequential)]` and matching field types
+1. **Type names match**: Use `[Iox2Type("YourTypeName")]` or ensure C# type
+   name matches
+2. **Memory layout matches**: Use `[StructLayout(LayoutKind.Sequential)]` and
+   matching field types
 3. **Size and alignment match**: Verify with `sizeof()` in both languages
 4. **Service names match**: Use the same service name string
 
-### Example: Rust ↔ C #
+### Example: Rust ↔ C Sharp
 
 **Rust (rust_publisher.rs):**
 

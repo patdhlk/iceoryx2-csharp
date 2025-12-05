@@ -1,6 +1,7 @@
 # Task-to-Task Communication Example
 
-This example demonstrates how to use iceoryx2 for communication between async tasks within a single executable, showcasing zero-copy shared memory IPC.
+This example demonstrates how to use iceoryx2 for communication between async
+tasks within a single executable, showcasing zero-copy shared memory IPC.
 
 ## Overview
 
@@ -8,14 +9,15 @@ The example simulates a sensor data processing pipeline with four concurrent tas
 
 1. **Sensor Task 1** - Publishes sensor data every 500ms
 2. **Sensor Task 2** - Publishes sensor data every 700ms
-3. **Processor Task** - Aggregates sensor data and publishes processed results every 2 seconds
+3. **Processor Task** - Aggregates sensor data and publishes processed results
+   every 2 seconds
 4. **Display Task** - Displays the aggregated results
 
 All communication uses zero-copy shared memory access via `GetPayloadRef()` and `GetPayloadRefReadOnly()`.
 
 ## Architecture
 
-```
+```text
 ┌─────────────┐
 │  Sensor 1   │──┐
 └─────────────┘  │
@@ -28,11 +30,11 @@ All communication uses zero-copy shared memory access via `GetPayloadRef()` and 
 
 ## Key Features
 
-- ✅ **Zero-Copy Access** - Direct memory access using `ref` returns
-- ✅ **Async/Await** - Modern async patterns with `CancellationToken`
-- ✅ **Multiple Tasks** - Four concurrent tasks in one process
-- ✅ **Data Aggregation** - Processor task demonstrates data processing
-- ✅ **Graceful Shutdown** - Ctrl+C handling with proper cleanup
+* ✅ **Zero-Copy Access** - Direct memory access using `ref` returns
+* ✅ **Async/Await** - Modern async patterns with `CancellationToken`
+* ✅ **Multiple Tasks** - Four concurrent tasks in one process
+* ✅ **Data Aggregation** - Processor task demonstrates data processing
+* ✅ **Graceful Shutdown** - Ctrl+C handling with proper cleanup
 
 ## Running the Example
 
@@ -73,7 +75,7 @@ using (sample)
 
 ## Expected Output
 
-```
+```text
 ===========================================
 Task-to-Task Communication Example
 ===========================================

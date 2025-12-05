@@ -1,10 +1,13 @@
 # iceoryx2.Reactive
 
-Reactive Extensions (Rx) support for iceoryx2 - provides `IObservable<T>` pattern for declarative, composable pub/sub communication.
+Reactive Extensions (Rx) support for iceoryx2 - provides `IObservable<T>` pattern
+for declarative, composable pub/sub communication.
 
 ## Overview
 
-`Iceoryx2.Reactive` transforms iceoryx2's imperative polling-based subscriber into a declarative, Rx-style data stream. This enables powerful LINQ-style operators and clean async/await patterns.
+`Iceoryx2.Reactive` transforms iceoryx2's imperative polling-based subscriber into
+a declarative, Rx-style data stream. This enables powerful LINQ-style operators
+and clean async/await patterns.
 
 ### Before: Imperative Polling
 
@@ -38,15 +41,16 @@ Console.ReadKey(); // Keep the app alive
 
 ## Features
 
-* ✅ **IObservable<T>** - Full Rx integration with System.Reactive
+* ✅ **`IObservable<T>`** - Full Rx integration with System.Reactive
 * ✅ **LINQ Operators** - Use Where, Select, Buffer, Throttle, etc.
-* ✅ **Async Streams** - IAsyncEnumerable<T> support for `await foreach`
+* ✅ **Async Streams** - `IAsyncEnumerable<T>` support for `await foreach`
 * ✅ **Composable** - Chain and combine multiple streams
 * ✅ **Cancellation** - Full CancellationToken support across all async operations
 * ✅ **Resource Management** - RAII disposal patterns
 * ✅ **Two Modes**:
     * **Polling-based** - Simple, works everywhere, configurable polling interval
-    * **Event-driven (WaitSet)** - Truly async using OS primitives (epoll/kqueue), low latency, low CPU
+    * **Event-driven (WaitSet)** - Truly async using OS primitives
+      (epoll/kqueue), low latency, low CPU
 * ✅ **Comprehensive Async API** - Every blocking operation has an async counterpart:
     * `Subscriber.ReceiveAsync<T>()` - Async receive with optional timeout
     * `Listener.WaitAsync()` - Async event waiting with optional timeout
@@ -56,7 +60,8 @@ Console.ReadKey(); // Keep the app alive
 
 ### 1. Subscriber - Polling-Based (Data Streams)
 
-Subscribers provide data samples and use polling since the native API doesn't have blocking receive:
+Subscribers provide data samples and use polling since the native API doesn't
+have blocking receive:
 
 ```csharp
 // Polling every 10ms (configurable)
@@ -76,7 +81,8 @@ using var subscription = subscriber.AsObservable<SensorData>(
 
 ### 2. Listener - Event-Driven with WaitSet (Event Notifications)
 
-Listeners provide lightweight event notifications and use WaitSet for truly async, event-driven operation:
+Listeners provide lightweight event notifications and use WaitSet for truly
+async, event-driven operation:
 
 ```csharp
 // Event-driven using WaitSet - no polling!
@@ -111,7 +117,10 @@ using var subscription = listener.AsObservable(
 
 ## Modern Async/Await Integration
 
-The iceoryx2 C# wrapper is designed to be truly async-first. **Every potentially blocking or long-running operation has an async counterpart that accepts a `CancellationToken`**, allowing seamless integration into modern asynchronous applications without ever blocking threads.
+The iceoryx2 C# wrapper is designed to be truly async-first. **Every potentially
+blocking or long-running operation has an async counterpart that accepts a
+`CancellationToken`**, allowing seamless integration into modern asynchronous
+applications without ever blocking threads.
 
 ### Core Async APIs
 
@@ -332,7 +341,7 @@ cts.Cancel(); // Stops the observable stream gracefully
 
 ## API Reference
 
-### SubscriberExtensions.AsObservable<T>()
+### `SubscriberExtensions.AsObservable<T>()`
 
 Converts a Subscriber into an `IObservable<T>` stream.
 
@@ -343,7 +352,7 @@ Converts a Subscriber into an `IObservable<T>` stream.
 
 **Returns:** `IObservable<T>`
 
-### SubscriberExtensions.AsAsyncEnumerable<T>()
+### `SubscriberExtensions.AsAsyncEnumerable<T>()`
 
 Converts a Subscriber into an `IAsyncEnumerable<T>` stream.
 
@@ -358,9 +367,13 @@ Converts a Subscriber into an `IAsyncEnumerable<T>` stream.
 
 ### Polling vs. Event-Driven
 
-⚠️ **Important**: The Reactive Extensions are **polling-based**, not truly event-driven. The `AsObservable<T>()` and `AsAsyncEnumerable<T>()` methods poll the subscriber with `Task.Delay()` between checks.
+⚠️ **Important**: The Reactive Extensions are **polling-based**, not truly
+event-driven. The `AsObservable<T>()` and `AsAsyncEnumerable<T>()` methods
+poll the subscriber with `Task.Delay()` between checks.
 
-**For truly event-driven, low-latency operations**, use the **WaitSet** API instead, which blocks on platform-specific OS primitives (epoll on Linux, kqueue on macOS) and wakes only when events occur - no polling overhead.
+**For truly event-driven, low-latency operations**, use the **WaitSet** API
+instead, which blocks on platform-specific OS primitives (epoll on Linux,
+kqueue on macOS) and wakes only when events occur - no polling overhead.
 
 **When to use Reactive Extensions:**
 

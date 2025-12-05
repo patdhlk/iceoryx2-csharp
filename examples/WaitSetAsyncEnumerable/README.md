@@ -1,18 +1,26 @@
 # WaitSet IAsyncEnumerable Example
 
-This example demonstrates the modern `IAsyncEnumerable<WaitSetEvent>` API for processing WaitSet events. This approach provides significant advantages over the traditional callback pattern.
+This example demonstrates the modern `IAsyncEnumerable<WaitSetEvent>` API for
+processing WaitSet events. This approach provides significant advantages over
+the traditional callback pattern.
 
 ## The Problem with Callbacks
 
-The traditional WaitSet callback API has a critical usability issue: **the busy-loop pitfall**. If developers don't consume all pending events in their callback, the WaitSet enters a busy-loop that wastes CPU cycles. From the WaitSet README:
+The traditional WaitSet callback API has a critical usability issue: **the
+busy-loop pitfall**. If developers don't consume all pending events in their
+callback, the WaitSet enters a busy-loop that wastes CPU cycles. From the
+WaitSet README:
 
-> **⚠️ IMPORTANT:** The callback **MUST** consume all pending events (by calling `TryWait()` until it returns `None`) to avoid a busy-loop!
+> **⚠️ IMPORTANT:** The callback **MUST** consume all pending events (by calling
+> `TryWait()` until it returns `None`) to avoid a busy-loop!
 
-This is a classic "pit of failure"—a pattern that's easy to get wrong with severe performance consequences.
+This is a classic "pit of failure"—a pattern that's easy to get wrong with
+severe performance consequences.
 
 ## The Solution: IAsyncEnumerable
 
-The new `Events()` method provides a modern, async-friendly API that eliminates this pitfall entirely:
+The new `Events()` method provides a modern, async-friendly API that eliminates
+this pitfall entirely:
 
 ```csharp
 public async IAsyncEnumerable<WaitSetEvent> Events(CancellationToken cancellationToken = default)
@@ -20,9 +28,12 @@ public async IAsyncEnumerable<WaitSetEvent> Events(CancellationToken cancellatio
 
 ### Benefits
 
-1. **Eliminates the Busy-Loop Pitfall**: The library correctly handles event consumption internally
-2. **Simplifies User Code**: Replaces complex callback state management with standard `await foreach`
-3. **Integrates with Async LINQ**: Use operators from `System.Linq.Async` (`Where`, `Select`, `Buffer`, etc.)
+1. **Eliminates the Busy-Loop Pitfall**: The library correctly handles event
+   consumption internally
+2. **Simplifies User Code**: Replaces complex callback state management with
+   standard `await foreach`
+3. **Integrates with Async LINQ**: Use operators from `System.Linq.Async`
+   (`Where`, `Select`, `Buffer`, etc.)
 4. **Proper Cancellation Support**: First-class `CancellationToken` integration
 
 ## API Comparison
@@ -191,7 +202,7 @@ dotnet run
 
 ## Expected Output
 
-```
+```text
 === WaitSet IAsyncEnumerable Demo ===
 
 ✓ WaitSet created with 2 listener attachments
@@ -224,6 +235,8 @@ Shutting down...
 * ✅ **No more busy-loop risk** - the library handles event consumption
 * ✅ **Clean async/await pattern** - integrates naturally with modern C#
 * ✅ **Powerful composition** - works with async LINQ operators
-* ⚠️ **Callback API still available** - for advanced scenarios requiring fine-grained control
+* ⚠️ **Callback API still available** - for advanced scenarios requiring
+  fine-grained control
 
-The `IAsyncEnumerable` API represents the recommended approach for WaitSet event processing in modern C# applications.
+The `IAsyncEnumerable` API represents the recommended approach for WaitSet event
+processing in modern C# applications.

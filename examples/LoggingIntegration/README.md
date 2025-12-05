@@ -1,6 +1,8 @@
 # Microsoft.Extensions.Logging Integration Example
 
-This example demonstrates how to integrate iceoryx2's internal logging with the Microsoft.Extensions.Logging framework, allowing you to see iceoryx2's debug logs through your existing logging infrastructure.
+This example demonstrates how to integrate iceoryx2's internal logging with the
+Microsoft.Extensions.Logging framework, allowing you to see iceoryx2's debug
+logs through your existing logging infrastructure.
 
 ## Features
 
@@ -14,8 +16,10 @@ The example showcases **4 different logging approaches**:
 ## Why Use This?
 
 * **Better Debugging**: See internal iceoryx2 logs alongside your application logs
-* **Unified Logging**: Use the same logging infrastructure for both your app and iceoryx2
-* **Flexibility**: Works with any Microsoft.Extensions.Logging provider (Serilog, NLog, Application Insights, etc.)
+* **Unified Logging**: Use the same logging infrastructure for both your app and
+  iceoryx2
+* **Flexibility**: Works with any Microsoft.Extensions.Logging provider
+  (Serilog, NLog, Application Insights, etc.)
 * **Structured Logging**: Get structured log data with scopes and context
 
 ## Running the Examples
@@ -55,7 +59,7 @@ Iox2LoggingExtensions.UseExtensionsLogging(loggerFactory, options =>
 
 **Output:**
 
-```
+```text
 15:32:45 trce: Iceoryx2[0] => [ipc::shm::named_concept] open memory "iox2_e5a7cad39de72e85eda95946a69f2fb5_service" with size 80
 15:32:45 dbug: Iceoryx2[0] => [service::dynamic_config] open dynamic service information of "my_demo_service"
 ```
@@ -83,7 +87,7 @@ Iox2LoggingExtensions.UseExtensionsLogging(loggerFactory, options =>
 
 **Output:**
 
-```
+```text
 [15:34:12 TRC] => [ipc::shm::named_concept] open memory "iox2_e5a7cad39de72e85eda95946a69f2fb5_service" with size 80
 [15:34:12 DBG] => [service::dynamic_config] open dynamic service information of "my_demo_service"
 ```
@@ -107,7 +111,8 @@ var loggingInitializer = app.Services.GetRequiredService<IIox2LoggingInitializer
 loggingInitializer.Initialize();
 ```
 
-**Use Case**: Perfect for ASP.NET Core applications or any app using Microsoft's DI container.
+**Use Case**: Perfect for ASP.NET Core applications or any app using Microsoft's
+DI container.
 
 ## Example 4: Custom Logger with Color Coding
 
@@ -180,7 +185,8 @@ services.AddIceoryx2Logging(options =>
 ## Benefits
 
 * **Debugging Made Easy**: See exactly what iceoryx2 is doing internally
-* **Production Monitoring**: Route iceoryx2 logs to your existing logging pipeline (Application Insights, Elasticsearch, etc.)
+* **Production Monitoring**: Route iceoryx2 logs to your existing logging
+  pipeline (Application Insights, Elasticsearch, etc.)
 * **Structured Data**: Use scopes and structured logging for better log analysis
 * **Consistency**: Same logging format and infrastructure for your entire application
 

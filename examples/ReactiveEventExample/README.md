@@ -1,6 +1,7 @@
 # Reactive Event Example
 
-This example demonstrates **event-driven Observable** usage with iceoryx2's Listener and Notifier using the `Iceoryx2.Reactive` library.
+This example demonstrates **event-driven Observable** usage with iceoryx2's
+Listener and Notifier using the `Iceoryx2.Reactive` library.
 
 ## Key Concepts
 
@@ -21,7 +22,7 @@ This example showcases **truly event-driven** reactive programming:
 
 ### Architecture
 
-```
+```text
 Notifier → [Event Service] → Listener → WaitSet → Observable → Rx Operators
            (Event IDs)                  (epoll/kqueue)
 ```
@@ -121,8 +122,10 @@ The `ListenerExtensions.AsObservable()` method uses WaitSet internally, which me
 
 ⚠️ **Important**:
 
-* The internal implementation consumes **all pending events** in a loop to avoid busy-waiting
-* This is correct behavior for event streams where you want to process all queued events
+* The internal implementation consumes **all pending events** in a loop to avoid
+  busy-waiting
+* This is correct behavior for event streams where you want to process all queued
+  events
 
 ### When to Use Events vs Pub/Sub
 
@@ -206,4 +209,5 @@ await foreach (var eventId in listener.AsAsyncEnumerable(cancellationToken: cts.
 * **Event Example** (`examples/Event`) - Basic Listener/Notifier without Rx
 * **ReactiveExample** (`examples/ReactiveExample`) - Polling-based pub/sub with Rx
 * **ObservableWaitSet** (`examples/ObservableWaitSet`) - Low-level WaitSet usage
-* **WaitSetMultiplexing** (`examples/WaitSetMultiplexing`) - WaitSet multiplexing patterns
+* **WaitSetMultiplexing** (`examples/WaitSetMultiplexing`) - WaitSet
+  multiplexing patterns

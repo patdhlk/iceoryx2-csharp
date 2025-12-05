@@ -1,4 +1,4 @@
-# Request-Response Example in C #
+# Request-Response Example in C Sharp
 
 > [!CAUTION]
 > Every payload you transmit with iceoryx2 must be compatible with shared
@@ -21,7 +21,8 @@ being limited to just one.
 
 The `Client` uses the following approach:
 
-1. Sends first request by using the slower copy API (`SendCopy()`) and then enters a loop.
+1. Sends first request by using the slower copy API (`SendCopy()`) and then
+   enters a loop.
 2. Inside the loop: Loans memory and acquires a `RequestMut`.
 3. Writes the payload into the `RequestMut`.
 4. Sends the `RequestMut` to the `Server` and receives a `PendingResponse`
@@ -99,7 +100,7 @@ efficiently.
 
 ### Server Output
 
-```
+```text
 Starting server...
 Server ready to receive requests!
 received request: 0
@@ -113,7 +114,7 @@ received request: 2
 
 ### Client Output
 
-```
+```text
 Starting client...
 Client started. Sending requests...
 send request 0 ...
@@ -132,5 +133,7 @@ send request 2 ...
 * **Zero-Copy API**: Using `Loan()` for efficient memory sharing
 * **Copy API**: Using `SendCopy()` and `SendCopyResponse()` for convenience
 * **Resource Management**: Proper disposal of requests, responses, and pending responses
-* **Type Safety**: Generic `RequestResponse<TRequest, TResponse>` with compile-time checks
-* **Cross-Language Compatible**: Uses `ulong` (u64) and `TransmissionData` struct compatible with C/C++/Rust
+* **Type Safety**: Generic `RequestResponse<TRequest, TResponse>` with compile-
+  time checks
+* **Cross-Language Compatible**: Uses `ulong` (u64) and `TransmissionData`
+  struct compatible with C/C++/Rust

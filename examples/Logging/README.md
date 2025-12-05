@@ -7,7 +7,8 @@ This example demonstrates how to use the iceoryx2 logging functionality in C#.
 * **Console Logging**: Use the built-in console logger
 * **File Logging**: Write logs to a file
 * **Custom Logger**: Implement custom log formatting and handling
-* **Log Levels**: Control verbosity with log levels (Trace, Debug, Info, Warn, Error, Fatal)
+* **Log Levels**: Control verbosity with log levels (Trace, Debug, Info, Warn,
+  Error, Fatal)
 * **Environment Variables**: Configure logging via `IOX2_LOG_LEVEL` environment variable
 
 ## Running the Examples
@@ -124,7 +125,8 @@ Log.Write(LogLevel.Info, "MyApp", "This goes to the file");
 
 ## Notes
 
-* The custom logger can only be set once and must be set before any log messages are created
+* The custom logger can only be set once and must be set before any log messages
+  are created
 * The built-in loggers (console/file) handle this restriction automatically
 * Library-generated logs (from iceoryx2 itself) will use the configured logger
 * Origin can be null or empty if not needed
