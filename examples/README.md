@@ -251,6 +251,109 @@ var blockingEventId = blockingWaitResult.Unwrap();
 Console.WriteLine($"Received event: {blockingEventId}");
 ```
 
+## WaitSet Event Multiplexing
+
+The `WaitSet` enables efficient monitoring of multiple event sources
+simultaneously without polling. It uses OS-level primitives
+(epoll on Linux, kqueue on macOS) to wake only when events arrive.
+
+### Benefits
+
+* **No CPU polling** - Uses OS-level event notification, not busy loops
+* **Multiple sources** - Monitor many listeners in a single wait call
+* **Signal handling** - Built-in support for graceful shutdown (Ctrl+C)
+* **Async integration** - Run WaitSet in background task
+
+### Basic WaitSet Usage
+
+```csharp
+using Iceoryx2;
+
+// Create node and event services
+var node = NodeBuilder.New().Create().Unwrap();
+
+var service1 = node.ServiceBuilder()
+    .Event()
+    .Open("events1")
+    .Unwrap();
+
+var service2 = node.ServiceBuilder()
+    .Event()
+    .Open("events2")
+    .Unwrap();
+
+// Create listeners
+using var listener1 = service1.CreateListener().Unwrap();
+using var listener2 = service2.CreateListener().Unwrap();
+
+// Create WaitSet with signal handling
+using var waitset = WaitSetBuilder.New()
+    .SignalHandling(SignalHandlingMode.TerminationAndInterrupt)
+    .Create()
+    .Unwrap();
+
+// Attach listeners to WaitSet
+using var guard1 = waitset.AttachNotification(listener1).Unwrap();
+using var guard2 = waitset.AttachNotification(listener2).Unwrap();
+
+// Event processing callback
+CallbackProgression OnEvent(WaitSetAttachmentId attachmentId)
+{
+    if (attachmentId.HasEventFrom(guard1))
+    {
+        // CRITICAL: Consume ALL pending events to avoid busy loop
+        while (listener1.TryWait().Unwrap() is { } eventId)
+        {
+            Console.WriteLine($"Service 1 event: {eventId.Value}");
+        }
+    }
+    else if (attachmentId.HasEventFrom(guard2))
+    {
+        while (listener2.TryWait().Unwrap() is { } eventId)
+        {
+            Console.WriteLine($"Service 2 event: {eventId.Value}");
+        }
+    }
+
+    return CallbackProgression.Continue;
+}
+
+// Run event loop (blocks until signal received)
+waitset.WaitAndProcess(OnEvent);
+```
+
+### Critical Pattern: Consume All Events
+
+The WaitSet wakes when events are available. You **must consume ALL pending
+events** in your callback:
+
+```csharp
+// ❌ WRONG: Only consumes one event - causes busy loop!
+if (attachmentId.HasEventFrom(guard))
+{
+    var eventId = listener.TryWait().Unwrap();
+    Console.WriteLine($"Event: {eventId}");
+}
+
+// ✅ CORRECT: Consume all pending events
+if (attachmentId.HasEventFrom(guard))
+{
+    while (true)
+    {
+        var result = listener.TryWait();
+        if (!result.IsOk) break;
+
+        var eventIdOpt = result.Unwrap();
+        if (!eventIdOpt.HasValue) break;
+
+        Console.WriteLine($"Event: {eventIdOpt.Value}");
+    }
+}
+```
+
+If events aren't fully consumed, the file descriptor remains ready and
+the WaitSet immediately wakes again, creating a CPU-burning busy loop.
+
 ## Request-Response Pattern (RPC)
 
 The Request-Response API provides a complete client-server RPC implementation
@@ -449,6 +552,71 @@ sample.Payload = new TransmissionData
 
 sample.Send();
 ```
+
+## Service Configuration (Quality of Service)
+
+iceoryx2 provides extensive configuration options for fine-tuning service
+behavior. These settings control memory usage, buffer sizes, and performance
+characteristics.
+
+### Publish-Subscribe Service Configuration
+
+```csharp
+var service = node.ServiceBuilder()
+    .PublishSubscribe<MyData>()
+    // Maximum number of subscribers that can connect (default: 8)
+    .MaxSubscribers(16)
+    // Maximum number of publishers that can connect (default: 2)
+    .MaxPublishers(4)
+    // Subscriber buffer size - how many samples each subscriber can hold (default: 2)
+    .SubscriberMaxBufferSize(10)
+    // Maximum samples a subscriber can borrow at once (default: 2)
+    .SubscriberMaxBorrowedSamples(3)
+    // History size for late-joining subscribers (default: 0)
+    .HistorySize(5)
+    // Enable safe overflow - oldest sample replaced when buffer full (default: true)
+    .EnableSafeOverflow(true)
+    .Open("MyService")
+    .Unwrap();
+```
+
+### Publisher Configuration
+
+```csharp
+var publisher = service.CreatePublisherBuilder()
+    // Maximum samples the publisher can loan at once (default: 2)
+    .MaxLoanedSamples(4)
+    .Create()
+    .Unwrap();
+```
+
+### Subscriber Configuration
+
+```csharp
+var subscriber = service.CreateSubscriberBuilder()
+    // Override the buffer size for this specific subscriber
+    .BufferSize(20)
+    .Create()
+    .Unwrap();
+```
+
+### Configuration Best Practices
+
+| Setting | Low Memory | High Throughput | Reliability |
+|---------|------------|-----------------|-------------|
+| `SubscriberMaxBufferSize` | 1-2 | 10+ | 5+ |
+| `HistorySize` | 0 | 0 | 5+ |
+| `MaxLoanedSamples` | 1 | 4+ | 2 |
+| `EnableSafeOverflow` | true | true | false |
+
+**Key Considerations:**
+
+* **Memory Usage**: Each subscriber buffer consumes
+  `buffer_size × payload_size` bytes
+* **History Size**: Useful for late-joining subscribers, but increases memory
+* **Safe Overflow**: When enabled, slow subscribers won't block fast publishers
+* **Loaned Samples**: Higher values allow more concurrent writes but use more
+  memory
 
 ## Async/Await Support
 
@@ -713,6 +881,77 @@ var publisher = service.CreatePublisher()
     .Unwrap();
 ```
 
+## Service Discovery
+
+The Service Discovery API allows you to dynamically discover running services
+and inspect their configurations. This is useful for monitoring, debugging,
+and building dynamic service-aware applications.
+
+### Listing Available Services
+
+```csharp
+using Iceoryx2;
+
+// Create a node (required to access service discovery)
+using var node = NodeBuilder.New()
+    .Name("discovery_node")
+    .Create()
+    .Unwrap();
+
+// List all running services
+var services = node.List().Unwrap();
+
+Console.WriteLine($"Found {services.Count} service(s):");
+
+foreach (var service in services)
+{
+    Console.WriteLine($"  Service: {service.Name}");
+    Console.WriteLine($"  ID:      {service.Id}");
+    Console.WriteLine($"  Pattern: {service.MessagingPattern}");
+}
+```
+
+### Inspecting Service Configuration
+
+Each service provides detailed configuration based on its messaging pattern:
+
+```csharp
+foreach (var service in services)
+{
+    switch (service.MessagingPattern)
+    {
+        case MessagingPattern.PublishSubscribe:
+            var pubSubConfig = service.PublishSubscribeConfig;
+            Console.WriteLine($"  Max Publishers:   {pubSubConfig.MaxPublishers}");
+            Console.WriteLine($"  Max Subscribers:  {pubSubConfig.MaxSubscribers}");
+            Console.WriteLine($"  History Size:     {pubSubConfig.HistorySize}");
+            Console.WriteLine($"  Buffer Size:      {pubSubConfig.SubscriberMaxBufferSize}");
+            break;
+
+        case MessagingPattern.Event:
+            var eventConfig = service.EventConfig;
+            Console.WriteLine($"  Max Notifiers:    {eventConfig.MaxNotifiers}");
+            Console.WriteLine($"  Max Listeners:    {eventConfig.MaxListeners}");
+            Console.WriteLine($"  Max Event ID:     {eventConfig.EventIdMaxValue}");
+            break;
+
+        case MessagingPattern.RequestResponse:
+            var rpcConfig = service.RequestResponseConfig;
+            Console.WriteLine($"  Max Clients:      {rpcConfig.MaxClients}");
+            Console.WriteLine($"  Max Servers:      {rpcConfig.MaxServers}");
+            break;
+    }
+}
+```
+
+### Use Cases
+
+* **Monitoring dashboards** - Display real-time service status
+* **Service health checks** - Verify expected services are running
+* **Dynamic routing** - Route messages based on available services
+* **Debugging** - Inspect service configurations to diagnose issues
+* **Service mesh integration** - Build service registries and load balancers
+
 ## Memory Management
 
 The C# bindings implement proper memory management with multiple layers of safety:
@@ -877,4 +1116,47 @@ dotnet run --framework net9.0 subscriber
 # Or try other modes: blocking, multi
 dotnet run --framework net9.0 blocking
 dotnet run --framework net9.0 multi
+```
+
+### 6. WaitSetMultiplexing
+
+**Location:** `examples/WaitSetMultiplexing/`
+
+Demonstrates efficient event multiplexing using WaitSet:
+
+* Monitor multiple event services in a single wait call
+* Uses OS-level primitives (epoll/kqueue) for efficient waiting
+* Signal handling for graceful shutdown (Ctrl+C)
+* Shows proper event consumption pattern to avoid busy loops
+
+**Run with:**
+
+```bash
+# Terminal 1 - Wait on multiple services
+cd examples/WaitSetMultiplexing
+dotnet run --framework net9.0 wait service1 service2
+
+# Terminal 2 - Send events
+dotnet run --framework net9.0 notify 42 service1
+dotnet run --framework net9.0 notify 100 service2
+```
+
+### 7. ServiceDiscovery
+
+**Location:** `examples/ServiceDiscovery/`
+
+Demonstrates dynamic service discovery:
+
+* List all running services in the system
+* Inspect service configurations (publishers, subscribers, buffer sizes)
+* Identify messaging patterns (Pub/Sub, Event, Request-Response)
+* Useful for monitoring and debugging
+
+**Run with:**
+
+```bash
+# First, start some services in another terminal (e.g., PublishSubscribe example)
+# Then run the discovery example:
+cd examples/ServiceDiscovery
+dotnet run --framework net9.0
 ```

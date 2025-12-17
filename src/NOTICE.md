@@ -21,10 +21,10 @@ SPDX-License-Identifier: Apache-2.0 OR MIT
 
 ## Third-party Content
 
-This project leverages the following third party content.
+The main iceoryx2 library has no third-party NuGet dependencies.
 
-> **Note**: This file contains all dependencies for the entire solution,
-> including tests and examples. For component-specific notices, see:
->
-> * [src/NOTICE.md](src/NOTICE.md) - Main library dependencies
-> * [examples/NOTICE.md](examples/NOTICE.md) - Example application dependencies
+The iceoryx2.Reactive extension package uses the following dependencies:
+
+| Package | Version | License | License Url | Copyright | Authors | Project Url |
+| ------- | ------- | ------- | ----------- | --------- | ------- | ----------- |
+| System.Reactive | 6.0.1 | MIT | [Link](https://licenses.nuget.org/MIT) | Copyright (C) .NET Foundation and Contributors. | .NET Foundation and Contributors | [Link](https://github.com/dotnet/reactive) |

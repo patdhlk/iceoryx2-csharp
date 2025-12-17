@@ -43,6 +43,123 @@ and provide idiomatic C# APIs with full memory safety.
 * 🔧 **Cross-platform** - Works on Linux, macOS, and Windows
 * 📦 **Multiple patterns** - Publish-Subscribe, Event, and Request-Response communication
 * ⚡ **Async/Await** - Full async support with CancellationToken for modern C# applications
+* 🔍 **Service Discovery** - Dynamically discover and monitor running services
+* 🌐 **Domain Isolation** - Separate communication groups for multi-tenant deployments
+
+## Core Concepts
+
+Understanding these core concepts will help you use iceoryx2-csharp effectively:
+
+### Zero-Copy Shared Memory
+
+Unlike traditional IPC mechanisms (sockets, pipes) that serialize and copy data,
+iceoryx2 uses **shared memory** for true zero-copy communication:
+
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│                     Shared Memory Region                        │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │                    Data Payload                          │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│          ↑                                    ↑                  │
+│          │ Direct Write                       │ Direct Read      │
+│    ┌─────┴──────┐                      ┌─────┴──────┐           │
+│    │ Publisher  │                      │ Subscriber │           │
+│    │ (Process A)│                      │ (Process B)│           │
+│    └────────────┘                      └────────────┘           │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Benefits:**
+
+* **No serialization** - Data is accessed directly in shared memory
+* **Constant-time transfer** - Transfer time is independent of payload size
+* **Low latency** - Microsecond-level communication
+* **High throughput** - Limited only by memory bandwidth
+
+### Services and Communication Patterns
+
+iceoryx2 organizes communication through **services**. Each service has a unique
+name and supports one of three communication patterns:
+
+| Pattern | Description | Use Case |
+|---------|-------------|----------|
+| **Publish-Subscribe** | One-to-many data distribution | Sensor data, telemetry, state broadcasts |
+| **Event** | Lightweight notifications with event IDs | Wake-up signals, state changes, triggers |
+| **Request-Response** | Client-server RPC | Commands, queries, configuration updates |
+
+### Nodes
+
+A **Node** represents your application's identity within iceoryx2. Nodes:
+
+* Own and manage services
+* Have unique names for identification
+* Monitor other nodes (detect dead/unresponsive nodes)
+* Are required to create any service
+
+```csharp
+using var node = NodeBuilder.New()
+    .Name("my_application")
+    .Create()
+    .Unwrap();
+```
+
+### Data Type Requirements
+
+For zero-copy to work correctly, data types must have a **defined memory layout**:
+
+```csharp
+using System.Runtime.InteropServices;
+
+// ✅ CORRECT: Sequential layout ensures consistent memory representation
+[StructLayout(LayoutKind.Sequential)]
+public struct SensorData
+{
+    public int SensorId;
+    public double Temperature;
+    public long Timestamp;
+}
+
+// ❌ WRONG: Default layout may differ across processes
+public struct BadData
+{
+    public int Value;
+    public string Name;  // Reference types not supported!
+}
+```
+
+**Requirements:**
+
+* Use `[StructLayout(LayoutKind.Sequential)]` attribute
+* Only use unmanaged types (primitives, fixed arrays, nested sequential structs)
+* Avoid reference types (strings, arrays, classes)
+* For cross-language compatibility with Rust/C, this matches `#[repr(C)]`
+
+### Domain Isolation
+
+**Domains** provide isolated communication groups, preventing interference
+between unrelated applications:
+
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│  Domain "production"        │  Domain "development"             │
+│  ┌─────────┐ ┌─────────┐   │  ┌─────────┐ ┌─────────┐          │
+│  │ App A   │ │ App B   │   │  │ App A'  │ │ App B'  │          │
+│  └────┬────┘ └────┬────┘   │  └────┬────┘ └────┬────┘          │
+│       │           │         │       │           │               │
+│  ┌────▼───────────▼────┐   │  ┌────▼───────────▼────┐          │
+│  │   Shared Services   │   │  │   Shared Services   │          │
+│  └─────────────────────┘   │  └─────────────────────┘          │
+│                             │                                   │
+│  (Cannot see each other)    │                                   │
+└─────────────────────────────┴───────────────────────────────────┘
+```
+
+Use domains to:
+
+* Run multiple instances of the same application
+* Isolate test environments from production
+* Separate different tenants in multi-tenant systems
 
 ## Quick Start
 
@@ -261,8 +378,11 @@ iceoryx2-csharp/
 │   ├── ComplexDataTypes/               # Complex struct example
 │   ├── Event/                          # Event API example
 │   ├── RequestResponse/                # Request-Response RPC example
-│   └── AsyncPubSub/                    # Async/await patterns example
+│   ├── AsyncPubSub/                    # Async/await patterns example
+│   ├── WaitSetMultiplexing/            # Event multiplexing with WaitSet
+│   └── ServiceDiscovery/               # Service discovery and monitoring
 ├── tests/                              # Unit tests
+├── ARCHITECTURE.md                     # Architecture and design documentation
 └── README.md
 ```
 
@@ -270,6 +390,9 @@ iceoryx2-csharp/
 
 Detailed usage examples for different patterns (Publish-Subscribe, Event,
 Request-Response, etc.) can be found in [examples/README.md](examples/README.md).
+
+For a deep dive into the architecture and design decisions, see
+[ARCHITECTURE.md](ARCHITECTURE.md).
 
 > [!NOTE]
 > To run the examples, you must specify the target framework:
